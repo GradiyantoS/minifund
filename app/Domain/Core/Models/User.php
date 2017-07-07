@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Models;
+namespace App\Domain\Core\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,6 +9,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $table='admins';
     /**
      * The attributes that are mass assignable.
      *
@@ -26,4 +27,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function setAttribute($key, $value)
+    {
+        $isRememberTokenAttribute = $key == $this->getRememberTokenName();
+
+        if( ! $isRememberTokenAttribute )
+        {
+            parent::setAttribute($key, $value);
+        }
+    }
 }

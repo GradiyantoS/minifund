@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Domain\Core\Auth;
+namespace App\Domain\Auth;
 
-use App\User;
-use App\Http\Controllers\Controller;
+use App\Domain\Core\Controllers\Controller;
+use App\Domain\Core\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 

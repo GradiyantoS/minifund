@@ -11,14 +11,14 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-
-            <form action="../../index2.html" method="post">
+            {{$data}}
+            {{Form::open(array('url' => 'login/', 'method' => 'POST'))}}
                 <div class="form-group has-feedback">
-                    <input type="email" class="form-control" placeholder="Email">
+                    {{Form::email('email','',array('class'=>'form-control','placeholder'=>'email'))}}
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
-                    <input type="password" class="form-control" placeholder="Password">
+                    {{Form::password('password',array('class'=>'form-control','placeholder'=>'password'))}}
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
 
@@ -29,7 +29,7 @@
                     </div>
                     <!-- /.col -->
                 </div>
-            </form>
+            {{Form::close()}}
 
 
 

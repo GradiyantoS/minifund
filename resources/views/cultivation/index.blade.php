@@ -3,33 +3,93 @@
 @section('title')
     <h1>Cultivation</h1>
 @endsection
+
+@section('css')
+    {{Html::style('plugins/datatables/dataTables.bootstrap.css')}}
+@endsection
 @section('content')
 
 
     <section class="content">
-        <div class="callout callout-info">
-            <h4>Tip!</h4>
-
-            <p>Add the layout-top-nav class to the body tag to get this layout. This feature can also be used with a
-                sidebar! So use this class if you want to remove the custom dropdown menus from the navbar and use regular
-                links instead.</p>
-        </div>
-        <div class="callout callout-danger">
-            <h4>Warning!</h4>
-
-            <p>The construction of this layout differs from the normal one. In other words, the HTML markup of the navbar
-                and the content will slightly differ than that of the normal layout.</p>
-        </div>
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">Blank Box</h3>
+        @if (session()->has('message'))
+            <div class="alert alert-info">{{ session()->get('message') }}</div>
+        @endif
+        <div class="box">
+            <div class="box-header" >
+                {{Form::open(array('url' => 'cultivation/create', 'method' => 'GET','style'=>'width:80%;margin:auto; text-align:center'))}}
+                    {{ Form::submit('Tambah Budidaya Baru', array('class' => 'btn btn-info btn-flat')) }}
+                {{Form::close()}}
             </div>
+
+            {{Form::open(array('url' => 'cultivation/search', 'method' => 'GET'))}}
+            <div class="input-group " style="width: 80%; margin: auto;">
+                <span class="input-group-addon">
+                        {{ Form::label('search','Name Search')}}
+                </span>
+                {{ Form::text('search','',['class' => 'form-control'])}}
+                <span class="input-group-btn">
+                        {{ Form::submit('search', array('class' => 'btn btn-info btn-flat')) }}
+                </span>
+            </div>
+            {{Form::close()}}
+            <!-- /.box-header -->
             <div class="box-body">
-                The great content goes here
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Jenis Budidaya</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($data as $d)
+                        <tr>
+                            <td>{{$d->description}}</td>
+                            </td>
+                            <td>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-btn">
+                                        {{Form::open(array('url' => 'cultivation/'.$d->id.'/edit', 'method' => 'GET'))}}
+                                            {{ Form::submit('Edit', array('class' => 'btn btn-warning btn-flat')) }}
+                                        {{Form::close()}}
+                                    </span>
+
+                                    <span class="input-group-btn">
+                                        {{Form::open(array('url' => 'cultivation/'.$d->id, 'method' => 'delete'))}}
+
+                                            {{ Form::submit('Delete', array('class' => 'btn btn-danger btn-flat')) }}
+                                        {{Form::close()}}
+                                    </span>
+                                </div>
+
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
             </div>
             <!-- /.box-body -->
+            {{$data->links()}}
         </div>
-        <!-- /.box -->
+
     </section>
 
+@endsection
+
+
+@section('js')
+    {{Html::script('plugins/datatables/jquery.dataTables.min.js')}}
+    {{Html::script('plugins/datatables/dataTables.bootstrap.min.js')}}
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "paging": false,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": false,
+                "autoWidth": true
+            });
+        });
+    </script>
 @endsection

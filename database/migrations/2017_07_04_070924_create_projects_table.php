@@ -17,7 +17,6 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->unsignedInteger('cultivation_id');
-            $table->bigInteger('project_no');
             $table->string('title');
             $table->date('start_at');
             $table->date('end_at');
@@ -25,6 +24,8 @@ class CreateProjectsTable extends Migration
             $table->timestamps();
             $table->foreign('cultivation_id')->references('id')->on('cultivations');
         });
+
+        DB::statement('ALTER Table projects add project_no BIGINT  NOT NULL UNIQUE AUTO_INCREMENT;');
     }
 
     /**

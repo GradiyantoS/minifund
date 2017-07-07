@@ -31,6 +31,7 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    @yield('css')
 </head>
 <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
 <body class="hold-transition skin-blue layout-top-nav">
@@ -50,7 +51,7 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="{{url('/')}}">Welcome <span class="sr-only">(current)</span></a></li>
+                        <li ><a href="{{url('/dashboard')}}">Dashboard</a></li>
                         <li><a href="{{url('project')}}">Project</a></li>
                         <li><a href="{{url('cultivation')}}">Cultivation</a></li>
                     </ul>
@@ -70,13 +71,14 @@
                                 <!-- Menu Toggle Button -->
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <!-- The user image in the navbar-->
-                                    <span class="hidden-xs">DARUDE</span>
+                                    <span class="hidden-xs">{{Auth()->user()->username}}</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
                                         <div class="pull-right">
-                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
+
+                                            <a href="{{url('logout')}}" class="btn btn-default btn-flat">Sign out</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -102,6 +104,7 @@
                 <h1>
                     @yield('title')
                 </h1>
+
             </section>
 
             <!-- Main content -->
@@ -129,6 +132,8 @@
 {{Html::script('plugins/jQuery/jquery-2.2.3.min.js')}}
 <!-- Bootstrap 3.3.6 -->
 {{Html::script('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')}}
+
+@yield('js')
 <!-- SlimScroll -->
 {{Html::script('plugins/slimScroll/jquery.slimscroll.min.js')}}
 <!-- FastClick -->
