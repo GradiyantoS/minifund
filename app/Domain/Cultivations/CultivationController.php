@@ -13,16 +13,12 @@ class CultivationController extends Controller
         $this->cultivation=$cultivationService;
     }
 
-    public function index(){
-        $data=$this->cultivation->getCultivations();
+    public function index(Request $request){
+        $input = $request->only('search');
+        $data=$this->cultivation->getCultivations($input['search']);
         return view('cultivation.index')->with(compact('data'));
     }
 
-    public function search(Request $request){
-        $retrieve = $request->only('search');
-        $data = $this->cultivation->getCultivationByName( $retrieve['search']);
-        return view('cultivation.index')->with(compact('data'));
-    }
     public function create(){
         return view('cultivation.create');
     }

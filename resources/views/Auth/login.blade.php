@@ -11,7 +11,6 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            {{$data}}
             {{Form::open(array('url' => 'login/', 'method' => 'POST'))}}
                 <div class="form-group has-feedback">
                     {{Form::email('email','',array('class'=>'form-control','placeholder'=>'email'))}}

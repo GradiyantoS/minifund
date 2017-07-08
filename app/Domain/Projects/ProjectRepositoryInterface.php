@@ -12,7 +12,7 @@ namespace App\Domain\Projects;
 
 interface ProjectRepositoryInterface
 {
-    public function getProjects();
+    public function getProjects(array $data);
     public function getProject($id);
 
     public function store(array $data);
@@ -20,8 +20,5 @@ interface ProjectRepositoryInterface
     public function destroy($id);
 
 
-    public function getAllProject($name);
-    public function getActiveProject($name);
-    public function getEndedProject($name);
 
 }

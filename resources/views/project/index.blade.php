@@ -19,19 +19,21 @@
                 <div class="alert alert-info">{{ session()->get('message') }}</div>
             @endif
             <div class="box-header">
-                {{Form::open(array('url' => 'project/create', 'method' => 'GET','style'=>'width:80%;margin:auto; text-align:center'))}}
-                {{ Form::submit('Tambah Project Baru', array('class' => 'btn btn-info btn-flat')) }}
+                {{Form::open(['url' => 'project/create', 'method' => 'GET','style'=>'width:80%;margin:auto; text-align:center'])}}
+                {{ Form::submit('Tambah Project Baru', ['class' => 'btn btn-info btn-flat']) }}
                 {{Form::close()}}
 
 
-                {{Form::open(array('url' => 'project/search', 'method' => 'GET'))}}
+                {{Form::open(['id'=>'searchForm','url' => 'project', 'method' => 'GET'])}}
                 <div class="input-group " style="width: 80%; margin: auto;">
                 <span class="input-group-addon" >
                         {{ Form::select('timeline',[
                             '1' => 'All Project',
-                            '2' => 'Active Project',
-                            '3' => 'Ended Project',
-                        ],null
+                            '2' => 'Pending Project',
+                            '3' => 'Active Project',
+                            '4' => 'Complete Project',
+                        ],$status ?? 1,
+                        ['onChange' =>'document.getElementById("searchForm").submit()']
                          )}}
                 </span>
                 <span class="input-group-addon">

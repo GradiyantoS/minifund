@@ -51,15 +51,13 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li ><a href="{{url('/dashboard')}}">Dashboard</a></li>
-                        <li><a href="{{url('project')}}">Project</a></li>
-                        <li><a href="{{url('cultivation')}}">Cultivation</a></li>
+                        <li ><a href="{{url('dashboard')}}">Dashboard</a></li>
+                        @if(Auth::check())
+
+                            <li><a href="{{url('project')}}">Project</a></li>
+                            <li><a href="{{url('cultivation')}}">Cultivation</a></li>
+                        @endif
                     </ul>
-                    <form class="navbar-form navbar-left" role="search">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
-                        </div>
-                    </form>
                 </div>
                 <!-- /.navbar-collapse -->
                 <!-- Navbar Right Menu -->

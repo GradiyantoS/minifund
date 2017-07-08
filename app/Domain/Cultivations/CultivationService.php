@@ -21,20 +21,15 @@ class CultivationService implements CultivationServiceInterface
         $this->cultivation = $cultivationRepository;
     }
 
-    public function getCultivations()
+    public function getCultivations($input)
     {
         // TODO: Implement getCultivations() method.
-        return $this->cultivation->getCultivations();
+        return $this->cultivation->getCultivations($input);
     }
     public function getCultivation($id){
         return $this->cultivation->getCultivation($id);
     }
 
-    public function getCultivationByName($name)
-    {
-        // TODO: Implement getCultivationByName() method.
-        return $this->cultivation->getCultivationByName($name);
-    }
 
     private function storeValidator(array $data)
     {

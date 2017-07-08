@@ -14,6 +14,8 @@
 Route::get('/' , function (){
     return view('welcome');
 });
+Route::get('/dashboard', 'Dashboard\DashboardController@index');
+Route::get('/dashboard/{id}', 'Dashboard\DashboardController@show');
 
 
 
@@ -23,26 +25,26 @@ Route::group(['namespace'=>'Auth'] ,function (){
     Route::get('logout', 'LoginController@logout');
 });
 
-Route::middleware(['guest', 'web'])->group(function () {
-    Route::get('/dashboard', 'Dashboard\DashboardController@index');
-    Route::get('/dashboard/{id}', 'Dashboard\DashboardController@show');
-});
+Route::group(['middleware' => ['login']], function() {
+
 // PROJECT ROUTES
 
-route::get('project/search','Projects\ProjectController@search');
-Route::get('project', 'Projects\ProjectController@index');
-Route::get('project/create', 'Projects\ProjectController@create');
-Route::get('project/{id}/edit', 'Projects\ProjectController@edit');
+    route::get('project/search', 'Projects\ProjectController@search');
+    Route::get('project', 'Projects\ProjectController@index');
+    Route::get('project/create', 'Projects\ProjectController@create');
+    Route::get('project/{id}/edit', 'Projects\ProjectController@edit');
+    Route::post('project', 'Projects\ProjectController@store');
+    Route::patch('project/{id}', 'Projects\ProjectController@update');
+    Route::delete('project/{id}', 'Projects\ProjectController@destroy');
+//});
 
-Route::post('project', 'Projects\ProjectController@store');
-Route::patch('project/{id}', 'Projects\ProjectController@update');
-Route::delete('project/{id}', 'Projects\ProjectController@destroy');
 
 
 // CULTIVATION ROUTES
-route::get('cultivation/search','Cultivations\CultivationController@search');
-route::resource('cultivation','Cultivations\CultivationController');
-
+//Route::group(['middleware' => 'admin'], function() {
+    route::get('cultivation/search','Cultivations\CultivationController@search');
+    route::resource('cultivation','Cultivations\CultivationController');
+});
 /*
 Route::get('cultivation', 'Cultivations\CultivationController@index');
 Route::get('cultivation/create', 'Cultivations\CultivationController@create');

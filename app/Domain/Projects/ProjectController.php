@@ -15,17 +15,13 @@ class ProjectController extends Controller
         $this->projectService = $projectService;
     }
 
-    public function index(){
-
-        $data = $this->projectService->getProjects();
-        return view('project.index')->with(compact('data'));
-    }
-    public function search(Request $request){
+    public function index(Request $request){
         $spec = $request->only('timeline','search');
-        $data = $this->projectService->getProjectSearch($spec);
-        return view('project.index')->with(compact('data'));
 
+        $data = $this->projectService->getProjects($spec);
+        return view('project.index')->with(compact('data'));
     }
+
 
     //START - INSERT DATA CONTROLLER
     public function create(){

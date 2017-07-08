@@ -12,7 +12,7 @@ namespace App\Domain\Projects;
 
 interface ProjectServiceInterface
 {
-    public function getProjects();
+    public function getProjects(array $data);
     public function getProject($id);
 
     public function store(array $data);
@@ -21,5 +21,4 @@ interface ProjectServiceInterface
 
     public function getCultivations();
 
-    public function getProjectSearch(array $data);
 }

@@ -22,11 +22,24 @@ class ProjectRepository implements ProjectRepositoryInterface
         $this->project = $project;
     }
 
-    public function getProjects()
+    public function getProjects(array $data)
     {
         // TODO: Implement getProjects() method.
-        $data = $this->project->paginate(config('constants.PAGE_NUMBER'));
-        return $data;
+        $query = $this->project
+        ->where(function ($query) use ($data) {
+            $query->where('title', 'like', $data['search'].'%')
+                ->orWhere('project_no', 'like', $data['search'].'%');
+        });
+        switch($data['timeline']){
+            case 2: $query
+                ->where('start_at','>',\Carbon\Carbon::now() );break;
+            case 3: $query
+                ->where('start_at','<=',\Carbon\Carbon::now() )
+                ->where('end_at','>=',\Carbon\Carbon::now() );break;
+            case 4:$query
+                ->where('end_at','<',\Carbon\Carbon::now() );break;
+        }
+        return $query->paginate(config('constants.PAGE_NUMBER'));
     }
     public function getAllProject($name){
         return $this->project

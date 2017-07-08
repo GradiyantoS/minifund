@@ -25,9 +25,9 @@ class ProjectService implements ProjectServiceInterface
         $this->cultivationRepository = $cultivationRepository;
     }
 
-    public function getProjects()
+    public function getProjects(array $data)
     {
-        $data = $this->project->getProjects();
+        $data = $this->project->getProjects($data);
         return $data;
     }
 
@@ -37,15 +37,6 @@ class ProjectService implements ProjectServiceInterface
         return $this->project->getProject($id);
     }
 
-    public function getProjectSearch(array $data)
-    {
-        // TODO: Implement getProjectSearch() method.
-        switch ($data['timeline']){
-            case 1: return $this->project->getAllProject($data['search']);break;
-            case 2: return $this->project->getActiveProject($data['search']);break;
-            case 3: return $this->project->getEndedProject($data['search']);break;
-        }
-    }
 
     private function storeValidator(array $data)
     {

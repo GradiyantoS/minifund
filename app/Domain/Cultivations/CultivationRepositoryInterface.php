@@ -12,9 +12,8 @@ namespace App\Domain\Cultivations;
 interface CultivationRepositoryInterface
 {
 
-    public function getCultivations();
+    public function getCultivations($input);
     public function getCultivation($id);
-    public function getCultivationByName($name);
 
     public function store(array $data);
     public function update($id,array $data);

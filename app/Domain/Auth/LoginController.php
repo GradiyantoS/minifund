@@ -3,7 +3,6 @@
 namespace App\Domain\Auth;
 
 use App\Domain\Core\Controllers\Controller;
-use App\Domain\Core\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -42,8 +41,7 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        $data = User::all();
-        return view('auth.login')->with(compact('data'));
+        return view('auth.login');
     }
 
 }

@@ -21,19 +21,19 @@ class CultivationRepository implements CultivationRepositoryInterface
     {
         $this->cultivation=$cultivation;
     }
-    public function getCultivations()
+
+    public function getCultivations($input)
     {
         // TODO: Implement getCultivations() method.
-        return $this->cultivation->paginate(config('constants.PAGE_NUMBER'));
+        return $this->cultivation
+            ->where('description','like',$input.'%')
+            ->paginate(config('constants.PAGE_NUMBER'));
     }
 
     public function getCultivation($id){
         return $this->cultivation->find($id);
     }
-    public function getCultivationByName($name){
-        return $this->cultivation->where('description','like',$name.'%')
-            ->paginate(config('constants.PAGE_NUMBER'));;
-    }
+
 
     public function store(array $data){
         $newCultivation = new Cultivation();
