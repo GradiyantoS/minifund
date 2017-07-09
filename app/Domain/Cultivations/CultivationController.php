@@ -4,7 +4,6 @@ namespace App\Domain\Cultivations;
 
 use App\Domain\Core\Controllers\Controller;
 use Illuminate\Http\Request;
-
 class CultivationController extends Controller
 {
     private $cultivation;
@@ -24,9 +23,9 @@ class CultivationController extends Controller
     }
 
     public function edit($id){
-        $data = $this->cultivation->getCultivation($id);
+        $response = $this->cultivation->edit($id);
 
-        return view('cultivation.edit')->with(compact('data'));
+        return $response;
     }
 
     public function update($id,Request $request){

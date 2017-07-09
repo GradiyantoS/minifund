@@ -52,7 +52,7 @@
                     <thead>
                     <tr>
                         <th>Nomor Project</th>
-                        <th>ID budidaya</th>
+                        <th>Nama budidaya</th>
                         <th>Nama Project</th>
                         <th>Tanggal Mulai</th>
                         <th>Tanggal Selesai</th>
@@ -64,7 +64,7 @@
                     @foreach($data as $d)
                         <tr>
                             <td>{{$d->project_no}}</td>
-                            <td>{{$d->cultivation_id}}</td>
+                            <td>{{$d->cultivation->description}}</td>
                             <td>{{$d->title}}</td>
                             <td>{{$d->start_at}}</td>
                             <td>{{$d->end_at}}</td>

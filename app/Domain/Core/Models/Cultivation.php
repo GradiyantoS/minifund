@@ -8,4 +8,7 @@ class Cultivation extends Model
 {
     //
 
+    public function project(){
+        return $this->hasMany('App\Domain\Core\Models\Project');
+    }
 }

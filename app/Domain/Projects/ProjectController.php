@@ -41,25 +41,22 @@ class ProjectController extends Controller
 
     //START - UPDATE DATA CONTROLLER
     public function edit($id){
-        $data = $this->projectService->getProject($id);
-        $cul = $this->projectService->getCultivations();
-        $list = $cul->pluck('description','id')->toArray();
-        $image = asset('storage/'.$data->image_url);
-        return view('project.edit')->with(compact('data','list','image'));
+        $response = $this->projectService->edit($id);
+        return $response;
     }
+
     public function update($id,Request $request){
         $data = $request->only('cultivation_id','title','start_at','end_at','image_url');
         //dd($data);
         $response = $this->projectService->update($id,$data);
-
         return $response;
 
     }
     //END - UPDATE DATA CONTROLLER
 
     public function destroy($id){
-
-        return $this->projectService->destroy($id);
+        $response = $this->projectService->destroy($id);
+        return $response;
     }
 
 }

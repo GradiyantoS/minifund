@@ -11,7 +11,6 @@ namespace App\Domain\Cultivations;
 
 interface CultivationRepositoryInterface
 {
-
     public function getCultivations($input);
     public function getCultivation($id);
 

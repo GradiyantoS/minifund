@@ -11,6 +11,7 @@ namespace App\Domain\Projects;
 
 
 use App\Domain\Cultivations\CultivationRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Validator;
 
 class ProjectService implements ProjectServiceInterface
@@ -34,9 +35,26 @@ class ProjectService implements ProjectServiceInterface
     public function getProject($id)
     {
         // TODO: Implement getProject() method.
-        return $this->project->getProject($id);
+        try {
+            $response = $this->project->getProject($id);
+        }catch (ModelNotFoundException $e){
+            return redirect('project')->with('message','object not found');
+        }
     }
 
+    public function edit($id){
+        try {
+            $response = $this->project->getProject($id);
+        }catch (ModelNotFoundException $e){
+            return redirect('project')->with('message','object not found');
+        }
+        $data = $response;
+
+        $cul = $this->getCultivations();
+        $list = $cul->pluck('description','id')->toArray();
+        $image = asset('storage/'.$data->image_url);
+        return view('project.edit')->with(compact('data','list','image'));
+    }
 
     private function storeValidator(array $data)
     {
@@ -109,20 +127,31 @@ class ProjectService implements ProjectServiceInterface
             $data['image_url']=$image;
             //dd($data);
             //dd(asset('storage/'.$image));
-            return $this->project->update($id,$data);
+            try{
+                $this->project->update($id,$data);
+            } catch (ModelNotFoundException $e){
+                return redirect('project') ->with('message', 'Data tidak ditemukan');
+            }
+            return redirect('project')->with('message','data berhasil diubah');
         }
     }
 
     public function destroy($id)
     {
         // TODO: Implement destroy() method.
-        return $this->project->destroy($id);
+        try{
+            $this->project->destroy($id);
+        } catch (ModelNotFoundException $e){
+            return redirect('project') ->with('message', 'Data tidak ditemukan');
+        }
+        return redirect('project')->with('message','data berhasil dihapus');
     }
 
     public function getCultivations()
     {
         // TODO: Implement getCultivations() method.
-        return $this->cultivationRepository->getCultivations();
+        $input ='';
+        return $this->cultivationRepository->getCultivations($input);
     }
 
 }

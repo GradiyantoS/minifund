@@ -31,7 +31,7 @@ class CultivationRepository implements CultivationRepositoryInterface
     }
 
     public function getCultivation($id){
-        return $this->cultivation->find($id);
+        return $this->cultivation->findorFail($id);
     }
 
 
@@ -41,8 +41,7 @@ class CultivationRepository implements CultivationRepositoryInterface
         $newCultivation->save();
 
         // redirect
-        Session()->flash('message', 'Penambahan budidaya Berhasil !!');
-        return redirect('cultivation');
+        return $newCultivation;
     }
 
     public function update($id,array $data){
@@ -51,16 +50,14 @@ class CultivationRepository implements CultivationRepositoryInterface
         $updateCultivation->save();
 
         // redirect
-        Session()->flash('message', 'Pengubahan budidaya Berhasil !!');
-        return redirect('cultivation');
+        return $updateCultivation;
 
     }
     public function destroy($id){
         $deleteCultivation = $this->getCultivation($id);
         $deleteCultivation->delete();
         // redirect
-        Session()->flash('message', 'Penghapusan budidaya Berhasil !!');
-        return redirect('cultivation');
+        return $deleteCultivation;
 
     }
 

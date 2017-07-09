@@ -6,6 +6,8 @@ use App\Domain\Cultivations\CultivationRepository;
 use App\Domain\Cultivations\CultivationRepositoryInterface;
 use App\Domain\Cultivations\CultivationService;
 use App\Domain\Cultivations\CultivationServiceInterface;
+use App\Domain\Dashboard\DashboardRepository;
+use App\Domain\Dashboard\DashboardRepositoryInterface;
 use App\Domain\Dashboard\DashboardService;
 use App\Domain\Dashboard\DashboardServiceInterface;
 use App\Domain\Projects\ProjectRepository;
@@ -38,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // Dashboard BINDING
         $this->app->bind(DashboardServiceInterface::class,DashboardService::class);
+        $this->app->bind(DashboardRepositoryInterface::class,DashboardRepository::class);
         // project BINDING
         $this->app->bind(ProjectServiceInterface::class,ProjectService::class);
         $this->app->bind(ProjectRepositoryInterface::class,ProjectRepository::class);

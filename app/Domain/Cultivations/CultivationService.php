@@ -10,8 +10,8 @@ namespace App\Domain\Cultivations;
 
 
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Validator;
-
 class CultivationService implements CultivationServiceInterface
 {
     private $cultivation;
@@ -28,6 +28,19 @@ class CultivationService implements CultivationServiceInterface
     }
     public function getCultivation($id){
         return $this->cultivation->getCultivation($id);
+    }
+
+
+    public function edit($id)
+    {
+        // TODO: Implement edit() method.
+        try{
+            $data = $this->cultivation->getCultivation($id);
+
+        }catch (ModelNotFoundException $e){
+            return redirect('cultivation')->with('message','Object Not Found');
+        }
+        return view('cultivation.edit')->with(compact('data'));
     }
 
 
@@ -57,13 +70,14 @@ class CultivationService implements CultivationServiceInterface
 
         if($validator->fails()) {
 
-            return redirect('cultivation/create')
+            return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
         else{
-
-            return $this->cultivation->store($data);
+            mail("gsmailtester@gmail.com","New Cultivation Notification","New Cultivation : ".$data['description']);
+            $this->cultivation->store($data);
+            return redirect('cultivation')->with('message','Tambah data berhasil');
         }
     }
 
@@ -74,12 +88,17 @@ class CultivationService implements CultivationServiceInterface
         $validator = $this->updateValidator($data);
         if($validator->fails()) {
 
-            return redirect('cultivation/edit')
+            return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
         else{
-            return $this->cultivation->update($id,$data);
+            try{
+                $this->cultivation->update($id,$data);
+            }catch (ModelNotFoundException $e){
+                return redirect('cultivation')->with('message','Object not found');
+            }
+            return redirect('cultivation')->with('message','Ubah data berhasil');
         }
     }
 
@@ -87,7 +106,12 @@ class CultivationService implements CultivationServiceInterface
     {
         // TODO: Implement destroy() method.
 
-        return $this->cultivation->destroy($id);
+        try{
+            $this->cultivation->destroy($id);
+        }catch (ModelNotFoundException $e){
+            return redirect('cultivation')->with('message','Object not found');
+        }
+        return redirect('cultivation')->with('message','Hapus data berhasil');
 
     }
 

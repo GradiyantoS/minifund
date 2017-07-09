@@ -12,19 +12,22 @@ namespace App\Domain\Dashboard;
 use App\Domain\Projects\ProjectRepositoryInterface;
 use Carbon\Carbon;
 use DateTime;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 class DashboardService implements DashboardServiceInterface
 {
     private $dashboardService;
 
-    public function __construct(ProjectRepositoryInterface $projectRepository)
+    public function __construct(DashboardRepositoryInterface $dashboardRepository)
     {
-        $this->dashboardService = $projectRepository;
+        $this->dashboardService = $dashboardRepository;
     }
 
     public function getDashboards()
     {
         // TODO: Implement getDashboards() method.
-        $datas = $this->dashboardService->getProjects();
+
+        $datas = $this->dashboardService->getDashboards();
         $collection =[];
         foreach ($datas as $data){
             $start = new DateTime($data->start_at);
@@ -54,7 +57,17 @@ class DashboardService implements DashboardServiceInterface
     }
 
     public function getDashboard($id){
-        return $this->dashboardService->getProject($id);
+
+        try{
+            $response = $this->dashboardService->getDashboard($id);
+
+        }catch (ModelNotFoundException $e){
+
+            //dd($e->getMessage());
+            return redirect('dashboard');
+        }
+        $data = $response;
+        return view('dashboard.show')->with(compact('data'));
     }
 
 }

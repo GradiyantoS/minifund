@@ -25,7 +25,7 @@ class ProjectRepository implements ProjectRepositoryInterface
     public function getProjects(array $data)
     {
         // TODO: Implement getProjects() method.
-        $query = $this->project
+        $query = $this->project->with('cultivation')
         ->where(function ($query) use ($data) {
             $query->where('title', 'like', $data['search'].'%')
                 ->orWhere('project_no', 'like', $data['search'].'%');
@@ -41,29 +41,11 @@ class ProjectRepository implements ProjectRepositoryInterface
         }
         return $query->paginate(config('constants.PAGE_NUMBER'));
     }
-    public function getAllProject($name){
-        return $this->project
-            ->where('title','like',$name.'%')
-            ->paginate(config('constants.PAGE_NUMBER'));
-    }
-    public function getActiveProject($name){
-        return $this->project
-            ->where('title','like',$name.'%')
-            ->where('end_at','>',\Carbon\Carbon::now() )
-            ->paginate(config('constants.PAGE_NUMBER'));
-    }
-    public function getEndedProject($name){
-        return $this->project
-            ->where('title','like',$name.'%')
-            ->where('end_at','<=',\Carbon\Carbon::now())
-            ->paginate(config('constants.PAGE_NUMBER'));
-    }
 
     public function getProject($id)
     {
         // TODO: Implement getProject() method.
-        $data = $this->project->find($id);
-        return $data;
+        return $this->project->findOrFail($id);
     }
 
     public function store(array $data)
@@ -94,19 +76,16 @@ class ProjectRepository implements ProjectRepositoryInterface
         $update->end_at = $data['end_at'];
         $update->image_url = $data['image_url'];
         $update->save();
-        Session()->flash('message', 'Ubah Project Berhasil !!');
-        return redirect('project');
+
+        return $update;
     }
 
     public function destroy($id)
     {
         // TODO: Implement destroy() method.
-        $del = $this->getProject($id);
+        return $this->getProject($id)->delete();
 
-        $del->delete();
         // redirect
-        Session()->flash('message', 'Hapus Project Berhasil !!');
-        return redirect('project');
     }
 
 }
